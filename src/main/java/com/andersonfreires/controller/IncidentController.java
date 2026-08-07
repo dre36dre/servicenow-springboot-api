@@ -19,9 +19,26 @@ public class IncidentController {
         return serviceNowClient.getIncidents();
     }
 
+    
     // POST - Create a new incident
     @PostMapping("/incidents")
     public String createIncident(@RequestBody Incident incident) {
         return serviceNowClient.createIncident(incident);
     }
+    
+    @PutMapping("/incidents/{sysId}")
+    public String updateIncident(
+            @PathVariable String sysId,
+            @RequestBody Incident incident) {
+
+        return serviceNowClient.updateIncident(sysId, incident);
+    }
+    
+ // DELETE - Delete an incident
+    @DeleteMapping("/incidents/{sysId}")
+    public String deleteIncident(@PathVariable String sysId) {
+
+        return serviceNowClient.deleteIncident(sysId);
+    }
+    
 }

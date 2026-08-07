@@ -42,4 +42,26 @@ public class ServiceNowClient {
                 .retrieve()
                 .body(String.class);
     }
+    
+ // PUT - Update an incident
+    public String updateIncident(String sysId, Incident incident) {
+
+        return restClient.put()
+                .uri("/api/now/table/incident/" + sysId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(incident)
+                .retrieve()
+                .body(String.class);
+    }
+    
+ // DELETE - Delete an incident
+    public String deleteIncident(String sysId) {
+
+        restClient.delete()
+                .uri("/api/now/table/incident/" + sysId)
+                .retrieve()
+                .toBodilessEntity();
+
+        return "Incident deleted successfully";
+    }
 }
