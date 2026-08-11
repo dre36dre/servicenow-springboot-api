@@ -2,6 +2,9 @@ package com.andersonfreires.controller;
 
 import model.Incident;
 import com.andersonfreires.service.ServiceNowClient;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,30 +18,47 @@ public class IncidentController {
 
     // GET - List incidents
     @GetMapping("/incidents")
-    public String getIncidents() {
-        return serviceNowClient.getIncidents();
+    public ResponseEntity<String> getIncidents() {
+
+        String response =
+                serviceNowClient.getIncidents();
+
+        return ResponseEntity.ok(response);
     }
 
     
     // POST - Create a new incident
     @PostMapping("/incidents")
-    public String createIncident(@RequestBody Incident incident) {
-        return serviceNowClient.createIncident(incident);
+    public ResponseEntity<String> createIncident(
+            @RequestBody Incident incident) {
+
+        String response =
+                serviceNowClient.createIncident(incident);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
     
     @PutMapping("/incidents/{sysId}")
-    public String updateIncident(
+    public ResponseEntity<String> updateIncident(
             @PathVariable String sysId,
             @RequestBody Incident incident) {
 
-        return serviceNowClient.updateIncident(sysId, incident);
+        String response =
+                serviceNowClient.updateIncident(sysId, incident);
+
+        return ResponseEntity.ok(response);
     }
     
  // DELETE - Delete an incident
     @DeleteMapping("/incidents/{sysId}")
-    public String deleteIncident(@PathVariable String sysId) {
+    public ResponseEntity<Void> deleteIncident(
+            @PathVariable String sysId) {
 
-        return serviceNowClient.deleteIncident(sysId);
+        serviceNowClient.deleteIncident(sysId);
+
+        return ResponseEntity.noContent().build();
     }
     
 }
